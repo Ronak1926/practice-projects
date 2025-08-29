@@ -1,3 +1,5 @@
+/* Basic Reset */
+
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +19,7 @@ body {
 .container {
   background-color: white;
   border-radius: 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   overflow: hidden;
@@ -35,11 +37,11 @@ body {
   display: block;
 }
 
-/* Start screen */
+/* START SCREEN */
 
 #start-screen h1 {
   color: #e86a33;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 2.5rem;
 }
 
@@ -50,7 +52,7 @@ body {
 }
 
 .quiz-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 #question-text {
@@ -85,6 +87,11 @@ body {
   transition: all 0.3s ease;
 }
 
+.answer-btn:hover {
+  background-color: #eadbc8;
+  border-color: #dac0ae;
+}
+
 .answer-btn.correct {
   background-color: #e6fff0;
   border-color: #a3f0c4;
@@ -112,7 +119,7 @@ body {
   transition: width 0.3s ease;
 }
 
-/*  Result screen */
+/* RESULT SCREEN */
 
 #result-screen h1 {
   color: #e86a33;
@@ -144,17 +151,19 @@ button {
   border: none;
   border-radius: 10px;
   padding: 15px 30px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3 ease;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #d45b28;
 }
 
-/* Responsive design */
-
+/* RESPONSIVE DESIGN */
 @media (max-width: 500px) {
+  /* when we hit 500px and below, implement the styles below */
+
   .screen {
     padding: 1rem;
   }
