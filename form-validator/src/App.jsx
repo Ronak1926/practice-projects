@@ -23,6 +23,7 @@ function App() {
     setErrors(validationErrors)
     if (Object.keys(validationErrors).length === 0) {
       alert("Form Submitted")
+      console.log(form)
     }
   }
 
