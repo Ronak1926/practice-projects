@@ -1,5 +1,6 @@
 import {User} from "../models/user.model.js"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcrypt"
+import { genTokenAndSetCookie } from "../utils/generateToken.js";
 
 export async function signUp(req, res) {
     try {
@@ -30,12 +31,12 @@ export async function signUp(req, res) {
         if(isUsernameExists){
             return res.status(400).json({message:"Username already taken"});
         }
-        
-        const salt = await bcrypt.gensalt(10)
+
+        const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password,salt)
 
         const newUser = new User({username,email,password:hashedPassword})
-
+        genTokenAndSetCookie(newUser._id,res)
         await newUser.save()
 
         return res.status(201).json({message: "User registered successfully", user:{
@@ -46,4 +47,53 @@ export async function signUp(req, res) {
        console.log("Error in the signup controller" + error.message)
         res.status(500).json({ message: "internal server error" })
     }
+}
+
+export async function login(req,res){
+    try {
+        const {email,password}=req.body;
+
+        if(!email || !password){
+            return res.status(400).json({message:"All fields are required"})
+        }
+        
+        const user = await User.findOne({email:email})
+
+        if(!user){
+            return res.status(400).json({message:"No such User exists!"})
+        }
+
+        const isPasswordMatch = await bcrypt.compare(password,user.password)
+
+        if(!isPasswordMatch){
+            return res.status(400).json({message:"Invalid Password"})
+        }
+
+        genTokenAndSetCookie(user._id,res)
+
+        res.status(200).json({message:"Login Successful",
+            user:{
+                ...user._doc,password:""
+            }
+        })
+
+    } catch (error) {
+        console.log("Error in the login controller "+ error.message )
+        res.status(500).json({message:"internal server error"})
+    }
+}
+
+export async function logout(req,res){
+    try {
+        res.clearCookie("jwt-password",{
+            httpOnly:true,
+            sameSite:"Strict",
+            secure:process.env.NODE_ENV === "production"
+        })
+        res.status(200).json({message:"Logout Successful"})
+    } catch (error) {
+        console.log("Error in the logout controller "+ error.message )
+        res.status(500).json({message:"internal server error"})
+    }
+    
 }
