@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { connectDB } from "./config/db.js"
 import authRoute from "./routes/auth.route.js"
 import cors from "cors"
+import passwordRoute from "./routes/password.route.js";
 
 dotenv.config()
 
@@ -22,8 +23,8 @@ app.use(
     })
 )
 
-app.use("/api/auth", authRoute)
-
+app.use("/api/auth", authRoute);
+app.use("/api/passwords", passwordRoute);
 
 app.listen(PORT, () => {
     connectDB()
