@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import dotenv from 'dotenv'
 import { connectDB } from "./config/db.js"
 import authRoute from "./routes/auth.route.js"
+import cors from "cors"
 
 dotenv.config()
 
@@ -12,6 +13,14 @@ const app = express()
 app.use(express.json())
 
 app.use(cookieParser())
+
+// CORS configuration to allow frontend with credentials (cookies)
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+)
 
 app.use("/api/auth", authRoute)
 
