@@ -15,6 +15,7 @@ app.use(cookieParser())
 
 app.use("/api/auth", authRoute)
 
+
 app.listen(PORT, () => {
     connectDB()
     console.log(`Server is running on the  http://localhost:${PORT}`)

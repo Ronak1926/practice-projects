@@ -97,3 +97,12 @@ export async function logout(req,res){
     }
     
 }
+
+export async function authCheck(req, res) {
+    try {
+        res.stauts(200).json({user:req.user})
+    } catch (error) {
+        console.log("Error in the authCheck controller "+ error.message )
+        res.status(500).json({message:"internal server error"})
+    }
+}
